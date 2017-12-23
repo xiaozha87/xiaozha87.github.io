@@ -25,7 +25,6 @@ after_script:
 branches:
   only:
     - dev
-    - /.*/
 env:
  global:
    - GH_REF: github.com/xiaozha87/xiaozha87.github.io.git
