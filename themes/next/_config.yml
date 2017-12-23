@@ -598,6 +598,11 @@ algolia_search:
 
 # Local search
 # Dependencies: https://github.com/flashlab/hexo-generator-search
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
 local_search:
   enable: true
   # if auto, trigger search by changing input
