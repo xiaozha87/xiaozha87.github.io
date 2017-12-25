@@ -6,11 +6,11 @@ tags:
 category:
 - Travis
 ---
-### 坑1： travis CI构建一直提示github账户授权失败 ###
+### 坑1：travis CI构建一直提示github账户授权失败 ###
 psersonal token问题，重新产生，并使用travis whoami判断token有效之后再配置travis CI environment variable
 ### 坑2：travis CI构建一直提示hexo-renderer-sass错误 ###
 在本地deploy并没有发生此问题，在travis vm中出现此问题，解决方式是在.travis.yml中增加
-```bash
+```
 npm install hexo-renderer-sass --save
 ```
 ### 坑3： travis CI自动构建部署之后，博客页面空白，什么也没有 ###
@@ -22,7 +22,7 @@ npm install hexo-renderer-sass --save
     path = themes/next
     url = https://github.com/iissnan/hexo-theme-next
 ```
-- 删除themes/next的.git和.gitignore，然后就可以讲themes/next的内容push到repository中了。
+- 删除themes/next的.git和.gitignore，然后就可以讲themes/next的内容push到repository中了
 
 ### Others ###
 1.在.travis.yml中将node_modules添加到cache中，可以加快构建速度
