@@ -29,3 +29,6 @@ branches:
 env:
  global:
    - GH_REF: github.com/xiaozha87/xiaozha87.github.io.git
+cache:
+  directories:
+    - node_modules

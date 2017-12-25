@@ -23,6 +23,7 @@ npm install hexo-renderer-sass --save
     url = https://github.com/iissnan/hexo-theme-next
 ```
 - 删除themes/next的.git和.gitignore，然后就可以讲themes/next的内容push到repository中了。
+
 ### Others ###
 1.在.travis.yml中将node_modules添加到cache中，可以加快构建速度
 ```
