@@ -14,5 +14,5 @@ git rm -r --cached directory-name
 git commit -m 'Remove  directory "directory-name"'
 git push origin master
 ```
-*git pull --rebase origin master* 这句的意思是：把github上最新的文件下载下来。
+`git pull --rebase origin master` 这句的意思是：把github上最新的文件下载下来。
 
