@@ -1,5 +1,5 @@
 ---
-title: Linux_VMWare_Device_eth0_does_not_seem_to_be_present_delaying_initialization
+title: Linux VMWare Device eth0 does not seem to be present,delaying initialization
 date: 2018-01-11 11:55:40
 tags:
 - Linux
