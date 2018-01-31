@@ -14,6 +14,8 @@ category:
 
 克隆的Linux系统在新的机器上运行，新服务器网卡物理地址已经改变。而/etc/udev/rules.d/70-persistent-net.rules这个文件确定了网卡和MAC地址的信息之间的绑定，克隆后的网卡的MAC已经发生了变化，所以导致系统认为网络设备不存在，网络不能正常启动。另外一个就是/etc/sysconfig/network-scripts/ifcfg-eth0里面MAC地址也是以前的旧信息。
 
+<!-- more -->
+
 关于/etc/udev/rules.d/70-persistent-net.rules这个文件，系统在启动时会自动监测变化，然后由/lib/udev/write_net_rules写入到/etc/udev/rules.d/70-persistent-net.rules中一个新的配置节，网卡的的序号依次递增（如原来为eth0,则修改第一后生成一个eth1,再次修改后生成一个eth2...）,且其ATTR{address}的值为当前网卡对应的mac地址。 
 
 ### 解决方法：

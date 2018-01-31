@@ -14,11 +14,11 @@ PHP开发中跨域表单提交解决办法，网上很多办法都是这样写�
 <!-- more -->
 
 1.编辑 form.php，开启session,并产生一个加密token保存到 session 中，并在form表单中加入一个隐藏域用来提交token
-```PHP
+``` php
 <?php
-session_start();
-$token = md5(mt_rand());
-$_SESSION['token'] = $token;
+  session_start();
+  $token = md5(mt_rand());
+  $_SESSION['token'] = $token;
 ?>
 <form action="form.php" method="post">
 <input type="text" name="name">
@@ -29,15 +29,15 @@ $_SESSION['token'] = $token;
 
 2.编辑 post.php, 首先验证 token 是否合法，合法则处理请求，并销毁token，不合法则提示 bad request
 
-```php
+``` php
 <?php
 if(isset($_POST['token'])){
-	if($_POST['token'] == $_SESSION['token']){
-	   echo $_POST['name'];
-	   unset($_SESSION['token']);
-	}else{
-	   echo 'bad request<br>';
-	}
+  if($_POST['token'] == $_SESSION['token']){
+     echo $_POST['name'];
+     unset($_SESSION['token']);
+  }else{
+     echo 'bad request<br>';
+  }
 }
 ```
 

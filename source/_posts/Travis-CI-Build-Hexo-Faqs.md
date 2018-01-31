@@ -13,6 +13,9 @@ psersonal token问题，重新产生，并使用travis whoami判断token有效�
 ```
 npm install hexo-renderer-sass --save
 ```
+
+<!-- more -->
+
 ### 坑3:travis CI自动构建部署之后，博客页面空白，什么也没有 ###
 将主题换回默认的landscape则可以正常显示内容。则锁定是next theme配置问题，check发现themes/next 中的内容被ignore了，并没有push到raw branch.
 解决方法有二：
