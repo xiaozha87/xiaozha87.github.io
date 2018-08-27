@@ -1,5 +1,5 @@
 ---
-title: Windows_Cmd_Set_Proxy
+title: windows 的cmd设置代理的问题
 date: 2018-08-27 10:18:30
 tags:
 - Github
