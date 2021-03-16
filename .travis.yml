@@ -7,8 +7,8 @@ install:
   - npm install
 
 
-before_script:
- -npm cache clean --force
+#before_script:
+ #-npm cache clean --force
  # - npm install -g gulp
 
 script:
