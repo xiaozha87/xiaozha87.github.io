@@ -4,6 +4,7 @@ node_js:
 
 # S: Build Lifecycle
 install:
+  -rimraf node_modules
   - npm install
 
 
