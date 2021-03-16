@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PHP,API,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前期准备首先开票公司必须使用的是航天信息的开票系统，有航天信息提供的开票软件客户端、金税盘等。然后要在诺诺电子发票服务平台注册企业账号，注意是企业账号，不是个人账号，地址：https://fp.jss.com.cn ，如果要开电票的话（诺诺发票服务平台也可以开普票纸票和专票），可能还要去税务局找航信公司人员办理电子签章等，航信一般在当地税务局有窗口办理业务。 注册和签章做完后，可以登录诺诺电子发票">
+<meta name="keywords" content="PHP,API">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP接入诺诺电子发票">
+<meta property="og:url" content="http://www.sgtbb.top/2021/03/16/Php-Nuonuo-Elec-Invoice/index.html">
+<meta property="og:site_name" content="Xiaozha&#39;s Blog">
+<meta property="og:description" content="前期准备首先开票公司必须使用的是航天信息的开票系统，有航天信息提供的开票软件客户端、金税盘等。然后要在诺诺电子发票服务平台注册企业账号，注意是企业账号，不是个人账号，地址：https://fp.jss.com.cn ，如果要开电票的话（诺诺发票服务平台也可以开普票纸票和专票），可能还要去税务局找航信公司人员办理电子签章等，航信一般在当地税务局有窗口办理业务。 注册和签章做完后，可以登录诺诺电子发票">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-03-16T06:57:53.520Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP接入诺诺电子发票">
+<meta name="twitter:description" content="前期准备首先开票公司必须使用的是航天信息的开票系统，有航天信息提供的开票软件客户端、金税盘等。然后要在诺诺电子发票服务平台注册企业账号，注意是企业账号，不是个人账号，地址：https://fp.jss.com.cn ，如果要开电票的话（诺诺发票服务平台也可以开普票纸票和专票），可能还要去税务局找航信公司人员办理电子签章等，航信一般在当地税务局有窗口办理业务。 注册和签章做完后，可以登录诺诺电子发票">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.sgtbb.top/2021/03/16/Php-Nuonuo-Elec-Invoice/">
+
+
+
+
+
+  <title>PHP接入诺诺电子发票 | Xiaozha's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xiaozha's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.sgtbb.top/2021/03/16/Php-Nuonuo-Elec-Invoice/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Laton">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaozha's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PHP接入诺诺电子发票</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-16T09:36:31+00:00">
+                2021-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><p>首先开票公司必须使用的是航天信息的开票系统，有航天信息提供的开票软件客户端、金税盘等。然后要在诺诺电子发票服务平台注册企业账号，注意是企业账号，不是个人账号，地址：<a href="https://fp.jss.com.cn/" target="_blank" rel="noopener">https://fp.jss.com.cn</a> ，如果要开电票的话（诺诺发票服务平台也可以开普票纸票和专票），可能还要去税务局找航信公司人员办理电子签章等，航信一般在当地税务局有窗口办理业务。</p>
+<p>注册和签章做完后，可以登录诺诺电子发票服务平台工作台。<br><a id="more"></a><br>这里还是简单介绍一下诺诺的各平台吧。<br>1.电子发票服务平台，诺诺提供的在线开票和发票管理平台，这里可以直接开票，前提是你已经办好了上述的一些手续，电子发票服务平台的工作台，可以直接开票，注意，这里不光可以开电子发票，还可以开纸质普票，专票，可以选择开票类型。</p>
+<p>2.诺诺开放平台，如果你不使用诺诺提供的电子发票服务平台，或者要将电子发票引入到你自己的业务系统，那就要使用诺诺开放平台，地址:<a href="https://open.jss.com.cn/" target="_blank" rel="noopener">https://open.jss.com.cn</a> ，账号是通用的，可直接登录诺诺开放平台，在应用管理中，创建应用，一般应用类型是自用型应用，然后会分别给一个正式环境和沙箱环境的appkey和APP Secret，开放平台提供了开发文档和sdk，使用都很简单。</p>
+<p>这里要注意，先去看文档找接口，那最重要的就是开票接口，平台的文档里没有开票接口文档，只有在注册了账号，创建了应用后，查看应用中提供了开票接口的文档……</p>
+<p>3.诺诺开票软件，诺诺发票，诺诺电子发票等客户端，这些都是财务使用的，也许有的<br>财务只用其中一个或2个，所有这些客户端都需要插上金税盘。</p>
+<h1 id="开票流程"><a href="#开票流程" class="headerlink" title="开票流程"></a>开票流程</h1><h2 id="普通的开票："><a href="#普通的开票：" class="headerlink" title="普通的开票："></a>普通的开票：</h2><p>公司财务直接在开票软件中开了，开票时填写开票信息等，如果开通了电子发票，开票软件中也可以开电子发票，开完后不用打印，直接将电子发票发送到开票信息中提供的手机和邮箱中了，也会提供电子发票的下载地址。</p>
+<p>使用电子发票服务平台开票：<br>1.在公司财务电脑（有金税盘的）上打开诺诺发票，开启开票服务，然后数据就会在发票服务平台和公司财务的开票软件之间同步，下图是诺诺发票客户端开启发票服务的状态。<br>2.登录电子发票服务平台工作台，点击发票填开，填写发票信息，发票类型。提交开票。提交的时候会请求公司的财务电脑的诺诺发票同步数据，如果请求不成功，会提示相应的错误，如果请求成功，开票状态是待开。<br>3.如果是纸票和专票，在公司财务电脑上打开开票软件，发票管理或者开票界面导入中，有从电子发票服务平台提交过来的开票信息，导入打印开票。开票完成后，数据会同步到电子发票服务平台中，刷新的话发票状态已经变成开票完成了。如果是电子发票，同样会请求公司财务电脑诺诺发票，不过不需要手动打印开票，而是请求电子签章，完成后同样将数据同步回去。<br>所以公司的诺诺发票软件要一直保持开启开票服务的状态，不然无法从电子发票服务平台（也包括开放平台api）提交发票，但是有时候财务人员会拿金税盘到税务去办相关的业务，金税盘不插的话，诺诺发票和开票软件等客户端肯定无法正常使用，而且财务的电脑也不是服务器，也不可能一直保持开机状态，这种情况可能需要使用分机，办理了分机的话，会有一个分机税盘，然后要配置分机，这个可以下载一个诺言客户端咨询客服，客服会通过远程给协助配置。</p>
+<h2 id="开放平台开票："><a href="#开放平台开票：" class="headerlink" title="开放平台开票："></a>开放平台开票：</h2><p>搞清楚电子发票服务平台后，那使用开放平台api就简单了，自己的业务系统中使用开发平台接口所完成的功能其实就是电子发票服务平台提供的功能的简化版，只是把一些功能通过api加到自己的业务系统中了，所以使用开放平台api开票，首先要调试电子发票服务平台能不能开票成功，如果电子发票服务平台开票不成功，api接口也不会调试成功！</p>
+<p>所以，不管是电子发票服务平台，还是开放平台，最终开票请求都通过诺诺提交到了公司财务的开票电脑上了，开票电脑完成开票后返回开票的结果。</p>
+<h3 id="PHP实现"><a href="#PHP实现" class="headerlink" title="PHP实现"></a>PHP实现</h3><p>这个就很简单了，主要使用三个接口：获取access_token，开票和查询，下载php的sdk。直接上代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require_once</span> <span class="string">"../nuonuo/lib/Api.php"</span>;</span><br></pre></td></tr></table></figure></p>
+<h4 id="获取access-token："><a href="#获取access-token：" class="headerlink" title="获取access_token："></a>获取access_token：</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$appKey    = C(<span class="string">'invoice.appKey'</span>);</span><br><span class="line">$appSecret = C(<span class="string">'invoice.appSecret'</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">        $token = Api::getMerchantToken($appKey, $appSecret);</span><br><span class="line">&#125; <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (!isJson($token)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line">$token = json_decode($token);</span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">isset</span>($token-&gt;access_token) || !<span class="keyword">isset</span>($token-&gt;expires_in)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> $token-&gt;access_token;</span><br></pre></td></tr></table></figure>
+<p>注意：access_token的调用限制是30天50次，需要本地缓存起来，在有效期内重复使用。</p>
+<h4 id="开票请求："><a href="#开票请求：" class="headerlink" title="开票请求："></a>开票请求：</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">request</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $appKey    = C(<span class="string">'invoice.appKey'</span>);</span><br><span class="line">        $appSecret = C(<span class="string">'invoice.appSecret'</span>);</span><br><span class="line">        $token     = <span class="keyword">self</span>::getMerchantToken();</span><br><span class="line">        $taxnum    = C(<span class="string">'invoice.salerTaxNum'</span>);</span><br><span class="line">        $url       = C(<span class="string">'invoice.url'</span>);</span><br><span class="line">        $method    = <span class="string">"nuonuo.electronInvoice.requestBilling"</span>;</span><br><span class="line">        $senid     = <span class="keyword">$this</span>-&gt;senid;</span><br><span class="line">        $body      = json_encode(</span><br><span class="line">            <span class="keyword">array</span>(</span><br><span class="line">                <span class="string">'order'</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">                    <span class="string">'buyerName'</span> =&gt; stripslashes(<span class="keyword">$this</span>-&gt;buyerName),</span><br><span class="line">                    <span class="string">'buyerTaxNum'</span> =&gt; <span class="keyword">$this</span>-&gt;buyerTaxNum,</span><br><span class="line">                    <span class="string">'buyerTel'</span> =&gt; <span class="keyword">$this</span>-&gt;buyerTel,</span><br><span class="line">                    <span class="string">'buyerAddress'</span> =&gt; stripslashes(<span class="keyword">$this</span>-&gt;buyerAddress),</span><br><span class="line">                    <span class="string">'buyerAccount'</span> =&gt; stripslashes(<span class="keyword">$this</span>-&gt;buyerAccount),</span><br><span class="line">                    <span class="string">'orderNo'</span> =&gt; <span class="keyword">$this</span>-&gt;orderNo,</span><br><span class="line">                    <span class="string">'invoiceDate'</span> =&gt; <span class="keyword">$this</span>-&gt;invoiceDate,</span><br><span class="line">                    <span class="string">'clerk'</span> =&gt; <span class="keyword">$this</span>-&gt;clerk,</span><br><span class="line">                    <span class="string">'payee'</span> =&gt; C(<span class="string">'invoice.payee'</span>),</span><br><span class="line">                    <span class="string">'checker'</span> =&gt; C(<span class="string">'invoice.checker'</span>),</span><br><span class="line">                    <span class="string">'salerTaxNum'</span> =&gt; <span class="keyword">$this</span>-&gt;salerTaxNum,</span><br><span class="line">                    <span class="string">'salerTel'</span> =&gt; <span class="keyword">$this</span>-&gt;salerTel,</span><br><span class="line">                    <span class="string">'salerAddress'</span> =&gt; <span class="keyword">$this</span>-&gt;salerAddress,</span><br><span class="line">                    <span class="string">'salerAccount'</span> =&gt; <span class="keyword">$this</span>-&gt;salerAccount,</span><br><span class="line">                    <span class="string">'invoiceType'</span> =&gt; <span class="keyword">$this</span>-&gt;invoiceType,</span><br><span class="line">                    <span class="string">'pushMode'</span> =&gt; <span class="keyword">$this</span>-&gt;pushMode,</span><br><span class="line">                    <span class="string">'buyerPhone'</span> =&gt; <span class="keyword">$this</span>-&gt;buyerPhone,</span><br><span class="line">                    <span class="string">'email'</span> =&gt; <span class="keyword">$this</span>-&gt;email,</span><br><span class="line">                    <span class="string">'invoiceLine'</span> =&gt; <span class="keyword">$this</span>-&gt;invoiceLine,</span><br><span class="line">                    <span class="string">'invoiceDetail'</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">                        <span class="string">'goodsName'</span> =&gt; <span class="keyword">$this</span>-&gt;goodsName,</span><br><span class="line">                        <span class="string">'goodsCode'</span> =&gt; <span class="keyword">$this</span>-&gt;goodsCode,</span><br><span class="line">                        <span class="string">'num'</span> =&gt; <span class="keyword">$this</span>-&gt;num,</span><br><span class="line">                        <span class="string">'price'</span> =&gt; <span class="keyword">$this</span>-&gt;price,</span><br><span class="line">                        <span class="string">'taxIncludedAmount'</span> =&gt; <span class="keyword">$this</span>-&gt;taxIncludedAmount,</span><br><span class="line">                        <span class="string">'withTaxFlag'</span> =&gt; <span class="keyword">$this</span>-&gt;withTaxFlag,</span><br><span class="line">                        <span class="string">'taxRate'</span> =&gt; <span class="keyword">$this</span>-&gt;taxRate,</span><br><span class="line">                    )</span><br><span class="line">                )</span><br><span class="line">            )</span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            $res = Api::sendPostSyncRequest($url, $senid, $appKey, $appSecret, $token, $taxnum, $method, $body);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;message = $e-&gt;getMessage();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!isJson($res)) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;message = <span class="string">'发票请求失败'</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        $res = json_decode($res);</span><br><span class="line">        <span class="keyword">if</span> ($res-&gt;code !== <span class="string">'E0000'</span>) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;message = $res-&gt;describe;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">isset</span>($res-&gt;result-&gt;invoiceSerialNum)) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;message = <span class="string">'未收到发票流水号'</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;invoiceSerialNum = $res-&gt;result-&gt;invoiceSerialNum;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;update_field(<span class="keyword">array</span>(<span class="string">'invoiceSerialNum'</span>));</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>注意：请求成功后，保存返回的发票流水号，用来查询开票结果。</p>
+<h4 id="查询结果："><a href="#查询结果：" class="headerlink" title="查询结果："></a>查询结果：</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">queryInvoice</span><span class="params">(array $serialNos)</span> </span>&#123;</span><br><span class="line">        $appKey    = C(<span class="string">'invoice.appKey'</span>);</span><br><span class="line">        $appSecret = C(<span class="string">'invoice.appSecret'</span>);</span><br><span class="line">        $token     = <span class="keyword">self</span>::getMerchantToken();</span><br><span class="line">        $taxnum    = C(<span class="string">'invoice.salerTaxNum'</span>);</span><br><span class="line">        $url       = C(<span class="string">'invoice.url'</span>);</span><br><span class="line">        $method    = <span class="string">"nuonuo.ElectronInvoice.queryInvoiceResult"</span>;</span><br><span class="line">        $senid     = uniqid();</span><br><span class="line"></span><br><span class="line">        $body = json_encode(<span class="keyword">array</span>(</span><br><span class="line">            <span class="string">'serialNos'</span> =&gt; $serialNos,</span><br><span class="line">        ));</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            $res = Api::sendPostSyncRequest($url, $senid, $appKey, $appSecret, $token, $taxnum, $method, $body);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!isJson($res)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        $res = json_decode($res);</span><br><span class="line">        <span class="keyword">if</span> ($res-&gt;code !== <span class="string">'E0000'</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">isset</span>($res-&gt;result)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> $res-&gt;result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>注意：发票结果查询需要作为定时任务一直运行，然后将查询的结果更新到本地，可批量查询。<br>最新的接口中，请求发票的时候可以提交一个callbackUrl参数，这个url只有开票成功的时候才会回调，但官方网站没有提供回调请求的文档，个人认为这个参数还是不要使用了，因为光使用回调不使用定时查询的话是不够的，其他状态的发票也需要更新，如开票失败，签章失败，作废等，既然避免不了使用定时任务来更新发票状态，那就没必要做回调了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate comment here</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Laton 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Laton 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+            <a href="/tags/API/" rel="tag"># API</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/27/Generate-Unique-Invitation-Code-Based-On-User-ID/" rel="next" title="根据用户id生成唯一邀请码">
+                <i class="fa fa-chevron-left"></i> 根据用户id生成唯一邀请码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Laton">
+            
+              <p class="site-author-name" itemprop="name">Laton</p>
+              <p class="site-description motion-element" itemprop="description">为梦想去努力的路不会觉得累</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/xiaozha87" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:304270703@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前期准备"><span class="nav-number">1.</span> <span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开票流程"><span class="nav-number">2.</span> <span class="nav-text">开票流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#普通的开票："><span class="nav-number">2.1.</span> <span class="nav-text">普通的开票：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开放平台开票："><span class="nav-number">2.2.</span> <span class="nav-text">开放平台开票：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP实现"><span class="nav-number">2.2.1.</span> <span class="nav-text">PHP实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#获取access-token："><span class="nav-number">2.2.1.1.</span> <span class="nav-text">获取access_token：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开票请求："><span class="nav-number">2.2.1.2.</span> <span class="nav-text">开票请求：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询结果："><span class="nav-number">2.2.1.3.</span> <span class="nav-text">查询结果：</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Laton</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
